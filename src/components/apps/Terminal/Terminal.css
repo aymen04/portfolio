@@ -23,7 +23,7 @@
 .terminal__output::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
 
 /* Each line is a full-width block */
-.tl {
+.term-line {
   display: block;
   width: 100%;
   white-space: pre-wrap;
@@ -33,7 +33,7 @@
 }
 
 /* Spans inside lines stay inline */
-.tl span {
+.term-line span {
   display: inline;
 }
 

@@ -215,14 +215,14 @@ export default function Terminal() {
 
   const renderEntry = (entry, idx) => {
     if (entry.type === 'boot')  return null;
-    if (entry.type === 'text')  return <div key={idx} className={`tl ${entry.cls || ''}`}>{entry.text || '\u00a0'}</div>;
+    if (entry.type === 'text')  return <div key={idx} className={`term-line ${entry.cls || ''}`}>{entry.text || '\u00a0'}</div>;
     if (entry.type === 'line')  return (
-      <div key={idx} className="tl">
+      <div key={idx} className="term-line">
         {entry.segments.map((s, i) => <span key={i} className={s.cls || ''}>{s.text}</span>)}
       </div>
     );
     if (entry.type === 'cmd')   return (
-      <div key={idx} className="tl">
+      <div key={idx} className="term-line">
         {PROMPT_SEGS.map((s, i) => <span key={i} className={s.cls}>{s.text}</span>)}
         <span>{entry.cmd}</span>
       </div>
