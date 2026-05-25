@@ -1,0 +1,174 @@
+.safari {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.safari__bar {
+  background: rgba(22, 22, 28, 0.99);
+  border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  padding: 8px 12px 6px;
+  flex-shrink: 0;
+}
+
+.safari-navbtns {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 7px;
+}
+.safari-navbtn {
+  background: rgba(255,255,255,0.06);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 5px;
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  width: 26px; height: 24px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.safari-navbtn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+.safari-url-wrap {
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  padding: 0 10px;
+  margin-bottom: 7px;
+  gap: 6px;
+}
+.safari-lock { font-size: 11px; }
+.safari-url {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-size: 12px; color: rgba(255,255,255,0.6);
+  padding: 5px 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.safari-tabs-row {
+  display: flex; gap: 4px;
+}
+.safari-tab-btn {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.5);
+  font-size: 11.5px; padding: 3px 12px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.safari-tab-btn:hover { background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.8); }
+.safari-tab-btn--active { background: rgba(37,99,235,0.25) !important; color: #93c5fd !important; border-color: rgba(37,99,235,0.35) !important; }
+
+.safari__content {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+}
+.safari__content::-webkit-scrollbar { width: 4px; }
+.safari__content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+/* Contact */
+.safari-contact { padding: 20px; }
+
+.contact-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+.contact-avatar {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 700; color: #fff;
+}
+.contact-name { font-size: 17px; font-weight: 700; color: #fff; }
+.contact-role { font-size: 12.5px; color: #60a5fa; margin-top: 3px; }
+
+.contact-links {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 20px;
+}
+.cl-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 12px; border-radius: 9px; cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+.cl-link:hover { filter: brightness(1.15); }
+.cl-icon { font-size: 18px; }
+.cl-label { font-size: 12px; font-weight: 600; color: #fff; }
+.cl-val { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+
+/* Form */
+.contact-form {
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 16px;
+}
+.form-title { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.07em; }
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 13px; color: #fff;
+  outline: none;
+  margin-bottom: 8px;
+  transition: border-color 0.15s;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
+}
+.form-input:focus { border-color: rgba(37,99,235,0.5); }
+.form-input::placeholder { color: rgba(255,255,255,0.25); }
+.form-textarea { height: 80px; resize: none; }
+.form-btn {
+  width: 100%; padding: 9px;
+  background: #2563eb; border: none; border-radius: 8px;
+  color: #fff; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.form-btn:hover { background: #1d4ed8; }
+
+/* Sent */
+.safari-sent {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; gap: 10px; padding: 40px;
+}
+.sent-icon { font-size: 40px; }
+.sent-title { font-size: 18px; font-weight: 700; color: #fff; }
+.sent-sub   { font-size: 13px; color: rgba(255,255,255,0.45); }
+
+/* Projects */
+.safari-projects { padding: 20px; }
+.sp-title {
+  font-size: 10.5px; font-weight: 700;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase; letter-spacing: 0.07em;
+  margin-bottom: 12px;
+}
+.sp-card {
+  display: block; position: relative;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 14px 16px;
+  margin-bottom: 10px; text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.sp-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(37,99,235,0.3); }
+.sp-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.sp-name  { font-size: 14px; font-weight: 700; color: #fff; }
+.sp-stars { font-size: 12px; color: #ffd60a; }
+.sp-tagline { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+.sp-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+.sp-tag {
+  background: rgba(37,99,235,0.12);
+  border: 0.5px solid rgba(37,99,235,0.25);
+  color: #93c5fd; font-size: 11px;
+  padding: 2px 7px; border-radius: 4px;
+}
+.sp-arrow {
+  position: absolute; top: 14px; right: 14px;
+  color: rgba(255,255,255,0.25); font-size: 14px;
+}

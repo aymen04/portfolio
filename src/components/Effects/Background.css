@@ -1,0 +1,48 @@
+/* ── Sonoma-inspired wallpaper ── */
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  /*
+    Reproduit le fond macOS Sonoma "Landscape" :
+    ciel profond en haut, transition warm sunset en bas
+  */
+  background:
+    /* Top-left deep indigo nebula */
+    radial-gradient(ellipse 70% 55% at 15% 20%,  #1a2a6c 0%, transparent 65%),
+    /* Top-right cool violet */
+    radial-gradient(ellipse 55% 50% at 85% 10%,  #2d1b69 0%, transparent 60%),
+    /* Center subtle warm glow */
+    radial-gradient(ellipse 60% 40% at 50% 60%,  #1a3a4a 0%, transparent 55%),
+    /* Bottom warm horizon */
+    radial-gradient(ellipse 90% 40% at 50% 100%, #2a1a0e 0%, transparent 60%),
+    /* Base deep space */
+    linear-gradient(
+      160deg,
+      #06080f  0%,
+      #0d1529 25%,
+      #0f1e38 50%,
+      #111520 75%,
+      #0a0c10 100%
+    );
+  z-index: 0;
+}
+
+/* Subtle grain texture via pseudo-element */
+.wallpaper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.wallpaper-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
