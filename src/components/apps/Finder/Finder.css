@@ -180,6 +180,13 @@
   display: flex; align-items: center; justify-content: center;
   font-size: 19px; flex-shrink: 0;
 }
+
+.edu-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+}
 .edu-info { flex: 1; }
 .edu-title  { font-size: 13px; font-weight: 600; color: #fff; }
 .edu-school { font-size: 11.5px; color: #60a5fa; margin-top: 2px; }

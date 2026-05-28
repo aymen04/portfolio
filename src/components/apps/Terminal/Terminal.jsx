@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ME, SKILLS, EXPERIENCE, EDUCATION, PROJECTS } from '../../../data/portfolio';
+import { useLang } from '../../../context/LangContext';
 import './Terminal.css';
 
-// ── Output builders ──────────────────────────────────────────────
-const txt  = (text, cls = '')     => ({ type: 'text', text, cls });
-const line = (segments)           => ({ type: 'line', segments });
-const blank = ()                  => txt('');
+const txt   = (text, cls = '') => ({ type: 'text', text, cls });
+const line  = (segments)       => ({ type: 'line', segments });
+const blank = ()               => txt('');
 
 const PROMPT_SEGS = [
   { text: 'aymen',     cls: 'c-green'  },
@@ -16,22 +16,13 @@ const PROMPT_SEGS = [
   { text: ' $ ',       cls: 'c-dim'    },
 ];
 
-function buildOutput(cmd) {
+function buildOutput(cmd, t) {
   switch (cmd.trim().toLowerCase()) {
-
     case 'help':
       return [
-        line([{ text: 'Commandes disponibles', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termHelp, cls: 'c-yellow c-bold' }]),
         blank(),
-        ...[ ['whoami',         'Infos personnelles & bio'],
-             ['skills',         'Compétences techniques'],
-             ['exp',            'Expériences professionnelles'],
-             ['edu',            'Formation & certifications'],
-             ['projects',       'Projets open-source'],
-             ['contact',        'Me contacter'],
-             ['neofetch',       'System info 🤓'],
-             ['clear',          'Vider le terminal'],
-        ].map(([c, d]) => line([
+        ...t.termCmds.map(([c, d]) => line([
           { text: `  ${c.padEnd(16)}`, cls: 'c-green' },
           { text: d,                   cls: 'c-dim'   },
         ])),
@@ -41,7 +32,7 @@ function buildOutput(cmd) {
       return [
         line([{ text: '╔══════════════════════════════════╗', cls: 'c-blue' }]),
         line([{ text: '║  ', cls: 'c-blue' }, { text: `${ME.name} ${ME.lastName}`, cls: 'c-bold' }, { text: '                  ║', cls: 'c-blue' }]),
-        line([{ text: '║  ', cls: 'c-blue' }, { text: ME.title, cls: 'c-green' }, { text: '             ║', cls: 'c-blue' }]),
+        line([{ text: '║  ', cls: 'c-blue' }, { text: ME.title,       cls: 'c-green' }, { text: '             ║', cls: 'c-blue' }]),
         line([{ text: '║  ', cls: 'c-blue' }, { text: `📍 ${ME.location}`, cls: 'c-dim' }, { text: '                ║', cls: 'c-blue' }]),
         line([{ text: '╚══════════════════════════════════╝', cls: 'c-blue' }]),
         blank(),
@@ -50,7 +41,7 @@ function buildOutput(cmd) {
 
     case 'skills':
       return [
-        line([{ text: '⚡ Technical skills', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termSkills, cls: 'c-yellow c-bold' }]),
         blank(),
         ...SKILLS.flatMap(cat => [
           line([{ text: `  [${cat.cat}]`, cls: 'c-bold' }]),
@@ -58,9 +49,9 @@ function buildOutput(cmd) {
             const bars = Math.round(s.level / 10);
             const bar  = '█'.repeat(bars) + '░'.repeat(10 - bars);
             return line([
-              { text: `    ${s.name.padEnd(24)}`, cls: 'c-dim' },
-              { text: bar, cls: 'c-blue' },
-              { text: `  ${s.level}%`, cls: 'c-green' },
+              { text: `    ${s.name.padEnd(24)}`, cls: 'c-dim'   },
+              { text: bar,                         cls: 'c-blue'  },
+              { text: `  ${s.level}%`,             cls: 'c-green' },
             ]);
           }),
           blank(),
@@ -69,26 +60,26 @@ function buildOutput(cmd) {
 
     case 'exp':
       return [
-        line([{ text: '💼 Work experience', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termExp, cls: 'c-yellow c-bold' }]),
         blank(),
         ...EXPERIENCE.flatMap(e => [
           line([
-            { text: e.company, cls: 'c-bold' },
-            { text: ' — ', cls: 'c-dim' },
-            { text: e.role, cls: 'c-green' },
+            { text: e.company, cls: 'c-bold'  },
+            { text: ' — ',     cls: 'c-dim'   },
+            { text: e.role,    cls: 'c-green' },
           ]),
           line([{ text: `  ${e.date} · ${e.location}`, cls: 'c-dim' }]),
-          txt(`  ${e.desc}`, 'c-dim'),
+          txt(`  ${Array.isArray(e.desc) ? e.desc[0] : e.desc}`, 'c-dim'),
           blank(),
         ]),
       ];
 
     case 'edu':
       return [
-        line([{ text: '🎓 Education', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termEdu, cls: 'c-yellow c-bold' }]),
         blank(),
         ...EDUCATION.flatMap(e => [
-          line([{ text: `${e.icon}  ${e.title}`, cls: 'c-bold' }]),
+          line([{ text: `🎓  ${e.title}`, cls: 'c-bold' }]),
           line([
             { text: `   ${e.school}`, cls: 'c-blue' },
             { text: ` · ${e.year}`,   cls: 'c-dim'  },
@@ -99,14 +90,14 @@ function buildOutput(cmd) {
 
     case 'projects':
       return [
-        line([{ text: '🗂 Projects', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termProjects, cls: 'c-yellow c-bold' }]),
         blank(),
         ...PROJECTS.flatMap(p => [
           line([
-            { text: p.name, cls: 'c-bold c-green' },
-            { text: ` ★ ${p.stars}`, cls: 'c-yellow' },
+            { text: p.name,          cls: 'c-bold c-green' },
+            { text: ` ★ ${p.stars}`, cls: 'c-yellow'       },
           ]),
-          line([{ text: `  ${p.tagline}`, cls: 'c-dim' }]),
+          line([{ text: `  ${p.tagline}`,                 cls: 'c-dim'  }]),
           line([{ text: `  Stack: ${p.stack.join(' · ')}`, cls: 'c-blue' }]),
           txt(`  ${p.desc}`, 'c-dim'),
           blank(),
@@ -115,87 +106,86 @@ function buildOutput(cmd) {
 
     case 'contact':
       return [
-        line([{ text: '📬 Contact', cls: 'c-yellow c-bold' }]),
+        line([{ text: t.termContact, cls: 'c-yellow c-bold' }]),
         blank(),
-        line([{ text: '  Email    ', cls: 'c-dim' }, { text: ME.email, cls: 'c-blue' }]),
-        line([{ text: '  GitHub   ', cls: 'c-dim' }, { text: ME.github, cls: 'c-blue' }]),
+        line([{ text: '  Email    ', cls: 'c-dim' }, { text: ME.email,    cls: 'c-blue' }]),
+        line([{ text: '  GitHub   ', cls: 'c-dim' }, { text: ME.github,   cls: 'c-blue' }]),
         line([{ text: '  LinkedIn ', cls: 'c-dim' }, { text: ME.linkedin, cls: 'c-blue' }]),
-        line([{ text: '  Site     ', cls: 'c-dim' }, { text: ME.website, cls: 'c-blue' }]),
+        line([{ text: '  Website  ', cls: 'c-dim' }, { text: ME.website,  cls: 'c-blue' }]),
       ];
 
     case 'neofetch':
       return [
-        line([{ text: '       .:`            ', cls: 'c-blue' }, { text: `${ME.name}@portfolio`, cls: 'c-bold' }]),
-        line([{ text: '    .+sdho.           ', cls: 'c-blue' }, { text: '─────────────────', cls: 'c-dim' }]),
-        line([{ text: ' .+ydddddddh+.        ', cls: 'c-blue' }, { text: 'OS:     ', cls: 'c-dim' }, { text: 'AymenOS 1.0', cls: '' }]),
-        line([{ text: ':sdddddddddddds:      ', cls: 'c-blue' }, { text: 'Host:   ', cls: 'c-dim' }, { text: 'React 18', cls: '' }]),
-        line([{ text: ':sdddddddddddds:      ', cls: 'c-blue' }, { text: 'Shell:  ', cls: 'c-dim' }, { text: 'zsh 5.9', cls: '' }]),
-        line([{ text: ' .+ydddddddh+.        ', cls: 'c-blue' }, { text: 'DE:     ', cls: 'c-dim' }, { text: 'AymenOS Desktop', cls: '' }]),
+        line([{ text: '       .:`            ', cls: 'c-blue' }, { text: `${ME.name}@portfolio`,     cls: 'c-bold' }]),
+        line([{ text: '    .+sdho.           ', cls: 'c-blue' }, { text: '─────────────────',         cls: 'c-dim'  }]),
+        line([{ text: ' .+ydddddddh+.        ', cls: 'c-blue' }, { text: 'OS:     ', cls: 'c-dim' }, { text: 'AymenOS 1.0',            cls: '' }]),
+        line([{ text: ':sdddddddddddds:      ', cls: 'c-blue' }, { text: 'Host:   ', cls: 'c-dim' }, { text: 'React 18',               cls: '' }]),
+        line([{ text: ':sdddddddddddds:      ', cls: 'c-blue' }, { text: 'Shell:  ', cls: 'c-dim' }, { text: 'zsh 5.9',                cls: '' }]),
+        line([{ text: ' .+ydddddddh+.        ', cls: 'c-blue' }, { text: 'DE:     ', cls: 'c-dim' }, { text: 'AymenOS Desktop',        cls: '' }]),
         line([{ text: '    .+sdho.           ', cls: 'c-blue' }, { text: 'Stack:  ', cls: 'c-dim' }, { text: 'React · Node · Postgres', cls: '' }]),
-        line([{ text: '       .:`            ', cls: 'c-blue' }, { text: 'Memory: ', cls: 'c-dim' }, { text: '7.4 GiB caffeine', cls: '' }]),
+        line([{ text: '       .:`            ', cls: 'c-blue' }, { text: 'Memory: ', cls: 'c-dim' }, { text: '7.4 GiB caffeine',       cls: '' }]),
         blank(),
         line([{ text: '  ██████████', cls: 'c-red' }, { text: '████████', cls: 'c-green' }, { text: '████████', cls: 'c-yellow' }, { text: '██████████', cls: 'c-blue' }]),
+      ];
+
+    case 'cv':
+      setTimeout(() => window.open('/cv-aymen.pdf', '_blank'), 100);
+      return [
+        line([{ text: t.termCVOpen,         cls: 'c-green' }]),
+        line([{ text: '  → /cv-aymen.pdf',  cls: 'c-dim'   }]),
       ];
 
     default:
       return [
         line([
-          { text: 'command not found: ', cls: 'c-red' },
+          { text: t.termNotFound(cmd).split(cmd)[0], cls: 'c-red' },
           { text: cmd, cls: '' },
-          { text: " — tapez 'help'", cls: 'c-dim' },
+          { text: t.termNotFound(cmd).split(cmd)[1], cls: 'c-dim' },
         ]),
       ];
   }
 }
 
-// ── Component ────────────────────────────────────────────────────
 export default function Terminal() {
-  const [history, setHistory] = useState(() => {
-    const boot = [
-      { type: 'boot' },
-    ];
-    return boot;
-  });
-  const [input, setInput]   = useState('');
-  const [cmdHist, setCmdHist] = useState([]);
-  const [histIdx, setHistIdx] = useState(-1);
+  const { t } = useLang();
+  const [history,  setHistory]  = useState([{ type: 'boot' }]);
+  const [input,    setInput]    = useState('');
+  const [cmdHist,  setCmdHist]  = useState([]);
+  const [histIdx,  setHistIdx]  = useState(-1);
   const bottomRef = useRef(null);
   const inputRef  = useRef(null);
 
-  // Auto-scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
-  // Boot message
   useEffect(() => {
+    const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     setTimeout(() => {
       setHistory(h => [
         ...h,
-        line([{ text: `AymenOS v1.0.0 — ${new Date().toLocaleDateString('fr-FR')}`, cls: 'c-dim' }]),
-        line([{ text: "Tapez ", cls: 'c-dim' }, { text: 'help', cls: 'c-green' }, { text: ' pour commencer.', cls: 'c-dim' }]),
+        line([{ text: t.termBoot(date), cls: 'c-dim' }]),
+        line([
+          { text: t.termStart[0], cls: 'c-dim'   },
+          { text: t.termStart[1], cls: 'c-green'  },
+          { text: t.termStart[2], cls: 'c-dim'    },
+        ]),
         blank(),
       ]);
     }, 200);
+  // eslint-disable-next-line
   }, []);
 
   const submit = useCallback(() => {
     const cmd = input.trim();
     if (!cmd) return;
-
-    const cmdEntry = { type: 'cmd', cmd };
-    if (cmd === 'clear') {
-      setHistory([]);
-      setInput('');
-      return;
-    }
-
-    const output = buildOutput(cmd);
-    setHistory(h => [...h, cmdEntry, ...output]);
+    if (cmd === 'clear') { setHistory([]); setInput(''); return; }
+    const output = buildOutput(cmd, t);
+    setHistory(h => [...h, { type: 'cmd', cmd }, ...output]);
     setCmdHist(h => [cmd, ...h]);
     setHistIdx(-1);
     setInput('');
-  }, [input]);
+  }, [input, t]);
 
   const onKeyDown = (e) => {
     if (e.key === 'Enter') { submit(); return; }
@@ -209,19 +199,21 @@ export default function Terminal() {
       e.preventDefault();
       const next = histIdx - 1;
       if (next < 0) { setHistIdx(-1); setInput(''); }
-      else { setHistIdx(next); setInput(cmdHist[next]); }
+      else          { setHistIdx(next); setInput(cmdHist[next]); }
     }
   };
 
   const renderEntry = (entry, idx) => {
-    if (entry.type === 'boot')  return null;
-    if (entry.type === 'text')  return <div key={idx} className={`term-line ${entry.cls || ''}`}>{entry.text || '\u00a0'}</div>;
-    if (entry.type === 'line')  return (
+    if (entry.type === 'boot') return null;
+    if (entry.type === 'text') return (
+      <div key={idx} className={`term-line ${entry.cls || ''}`}>{entry.text || '\u00a0'}</div>
+    );
+    if (entry.type === 'line') return (
       <div key={idx} className="term-line">
         {entry.segments.map((s, i) => <span key={i} className={s.cls || ''}>{s.text}</span>)}
       </div>
     );
-    if (entry.type === 'cmd')   return (
+    if (entry.type === 'cmd') return (
       <div key={idx} className="term-line">
         {PROMPT_SEGS.map((s, i) => <span key={i} className={s.cls}>{s.text}</span>)}
         <span>{entry.cmd}</span>
