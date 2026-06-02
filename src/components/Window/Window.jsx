@@ -7,6 +7,7 @@ const APP_META = {
   finder:   { title: 'Finder — Portfolio', Icon: VscFolder,       iconColor: '#4a9eff' },
   terminal: { title: 'Terminal',           Icon: VscTerminalBash,  iconColor: '#30d158' },
   vscode:   { title: 'VS Code — projects', Icon: VscCode,          iconColor: '#4a9eff' },
+  maps:     { title: 'Maps — Journey', Icon: TbCompass, iconColor: '#30d158' },
   safari:   { title: 'Safari',             Icon: TbCompass,        iconColor: '#0ea5e9' },
 };
 

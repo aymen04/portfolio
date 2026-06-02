@@ -5,6 +5,7 @@ const DEFAULT_POSITIONS = {
   terminal: { x: 200, y: 62,  w: 620, h: 420 },
   vscode:   { x: 100, y: 52,  w: 720, h: 520 },
   safari:   { x: 140, y: 52,  w: 580, h: 460 },
+  maps:     { x: 80,  y: 48,  w: 720, h: 480 },
 };
 
 export function useWindowManager() {
@@ -13,6 +14,7 @@ export function useWindowManager() {
     terminal: { open: false, minimized: false, pos: DEFAULT_POSITIONS.terminal, z: 9  },
     vscode:   { open: false, minimized: false, pos: DEFAULT_POSITIONS.vscode,   z: 8  },
     safari:   { open: false, minimized: false, pos: DEFAULT_POSITIONS.safari,   z: 7  },
+    maps:     { open: false, minimized: false, pos: DEFAULT_POSITIONS.maps,     z: 6  },
   });
   const [activeApp, setActiveApp] = useState('finder');
   const topZRef = useRef(20);
