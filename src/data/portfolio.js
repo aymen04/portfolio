@@ -12,7 +12,7 @@ export const ME = {
   linkedin: "https://linkedin.com/in/aymen-adline",
   website: "https://aymen.dev",
   cv: "/cv-aymen.pdf",
-  cv:"/cv-aymeneng.pdf",
+  cvEn:"/cv-aymeneng.pdf",
   status: "open",
 };
 
@@ -107,7 +107,7 @@ export const PROJECTS = [
     langColor: "#3178c6",
     stars: 0,
     status: "production",
-    url: "https://github.com/aymen04/",
+    url: "https://tempo-landing-two.vercel.app/",
     featured: true,
     lines: "12.4k",
   },
@@ -121,7 +121,7 @@ export const PROJECTS = [
     langColor: "#f7df1e",
     stars: 0,
     status: "production",
-    url: "https://github.com/aymen04/",
+    url: "https://glalux-seo-fix.vercel.app/",
     featured: true,
     lines: "5.2k",
   },
