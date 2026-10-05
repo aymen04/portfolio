@@ -1,0 +1,506 @@
+/* ============================================================
+   IosMobile.css — Dark iOS · Same DNA as Desktop
+   No framework. Pure CSS. Built from scratch.
+   ============================================================ */
+
+   *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* ── Base Container ───────────────────────────────────────── */
+  .ios-container {
+    position: relative;
+    height: 100dvh;
+    width: 100%;
+    overflow: hidden;
+    color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                 "SF Pro Text", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    -webkit-user-select: none;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Wallpaper overlay — same dark tint as desktop */
+  .ios-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 50%, rgba(10,132,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(48,209,88,0.06) 0%, transparent 50%),
+      rgba(0, 0, 0, 0.38);
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .ios-container > * { position: relative; z-index: 1; }
+  
+  /* ── Status Bar ───────────────────────────────────────────── */
+  .ios-statusbar {
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 22px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: rgba(255,255,255,0.9);
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* ── Lock Screen ──────────────────────────────────────────── */
+  .ios-lockscreen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: env(safe-area-inset-top, 64px) 0 env(safe-area-inset-bottom, 48px);
+    background: rgba(0,0,0,0.22);
+    backdrop-filter: blur(48px) saturate(180%);
+    -webkit-backdrop-filter: blur(48px) saturate(180%);
+    z-index: 20;
+  }
+  
+  .ios-clock-text {
+    font-size: 17px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    margin: 0;
+    text-transform: capitalize;
+  }
+  
+  .ios-clock-time {
+    font-size: 88px;
+    font-weight: 100;
+    letter-spacing: -5px;
+    margin: 4px 0 0;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+  }
+  
+  .ios-lang-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 0 24px;
+  }
+  
+  .ios-btn-group {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .ios-btn {
+    flex: 1;
+    padding: 17px 12px;
+    background: rgba(255,255,255,0.10);
+    border-radius: 16px;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: -0.2px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.12s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.22), 0 1px 0 rgba(255,255,255,0.08) inset;
+  }
+  
+  .ios-btn:active {
+    background: rgba(255,255,255,0.18);
+    transform: scale(0.96);
+  }
+  
+  /* ── Home Screen ──────────────────────────────────────────── */
+  .ios-homescreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* ── App Grid ─────────────────────────────────────────────── */
+  .ios-grid {
+    flex: 1;
+    padding: 16px 18px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px 6px;
+    align-content: start;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ios-grid::-webkit-scrollbar { display: none; }
+  .ios-grid { scrollbar-width: none; }
+  
+  /* ── App Icons ────────────────────────────────────────────── */
+  .ios-app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  
+  .ios-app-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 4px 16px rgba(0,0,0,0.35),
+      0 1px 0 rgba(255,255,255,0.12) inset,
+      0 0 0 0.5px rgba(255,255,255,0.06) inset;
+    color: white;
+    transition: transform 0.14s cubic-bezier(0.34,1.56,0.64,1),
+                filter 0.12s ease;
+    will-change: transform;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Shine overlay */
+  .ios-app-icon::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 100%);
+    border-radius: 13px 13px 0 0;
+    pointer-events: none;
+  }
+  
+  .ios-app:active .ios-app-icon {
+    transform: scale(0.86);
+    filter: brightness(0.75);
+    transition: transform 0.08s ease, filter 0.08s ease;
+  }
+  
+  .ios-app-icon.text-icon {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  .ios-app-icon.emoji-icon {
+    font-size: 28px;
+  }
+  
+  .ios-app-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+    text-align: center;
+    line-height: 1.2;
+    max-width: 64px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.92);
+  }
+  
+  /* ── Dock ─────────────────────────────────────────────────── */
+  .ios-dock {
+    margin: 10px 14px max(14px, env(safe-area-inset-bottom, 14px));
+    height: 82px;
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    border-radius: 26px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 14px;
+    box-shadow:
+      0 12px 40px rgba(0,0,0,0.28),
+      0 1px 0 rgba(255,255,255,0.08) inset;
+  }
+  
+  .ios-dock .ios-app-label { display: none; }
+  
+  .ios-dock-icon {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 12px !important;
+  }
+  
+  /* ── App View ─────────────────────────────────────────────── */
+  .ios-app-view {
+    position: absolute;
+    inset: 0;
+    background: #0a0a0f;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    color: #f0f0f0;
+    animation: iosSlideUp 0.44s cubic-bezier(0.52, 0, 0.16, 1) forwards;
+    overflow: hidden;
+  }
+  
+  @keyframes iosSlideUp {
+    from { transform: translateY(100%); border-radius: 16px; }
+    to   { transform: translateY(0);    border-radius: 0; }
+  }
+  
+  /* ── App Navbar ───────────────────────────────────────────── */
+  .ios-app-navbar {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    background: rgba(14,14,20,0.90);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+  
+  .ios-btn-back {
+    color: #0a84ff;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 0;
+    letter-spacing: -0.2px;
+    min-width: 72px;
+    transition: opacity 0.12s;
+  }
+  
+  .ios-btn-back:active { opacity: 0.45; }
+  
+  .ios-navbar-title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: rgba(255,255,255,0.92);
+    text-transform: capitalize;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .ios-spacer { min-width: 72px; }
+  
+  /* ── App Content ──────────────────────────────────────────── */
+  .ios-app-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding: 20px 16px;
+    padding-bottom: max(36px, env(safe-area-inset-bottom, 36px));
+    background: #0a0a0f;
+  }
+  
+  .ios-app-content::-webkit-scrollbar { display: none; }
+  .ios-app-content { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  .ios-app-content h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    margin: 0 0 6px;
+    color: #fff;
+    line-height: 1.1;
+  }
+  
+  .ios-app-content h2 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin: 0 0 3px;
+    color: #fff;
+  }
+  
+  .ios-app-content h3 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0a84ff;
+    margin: 0 0 8px;
+  }
+  
+  .ios-app-content p {
+    font-size: 14.5px;
+    color: rgba(255,255,255,0.52);
+    line-height: 1.62;
+    margin-bottom: 14px;
+    letter-spacing: -0.1px;
+  }
+  
+  /* ── Cards ────────────────────────────────────────────────── */
+  .ios-exp-item {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .ios-exp-date {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.32);
+    font-weight: 400;
+    margin: 5px 0 0;
+  }
+  
+  /* ── Skills ───────────────────────────────────────────────── */
+  .ios-mb-6 {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  
+  .ios-skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-top: 10px;
+  }
+  
+  .ios-skill-item { width: 100%; }
+  
+  .ios-skill-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 6px;
+  }
+  
+  .ios-skill-bar-bg {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  
+  .ios-skill-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* ── Tag ──────────────────────────────────────────────────── */
+  .ios-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: rgba(255,255,255,0.88);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+    border: 0.5px solid rgba(255,255,255,0.15);
+  }
+  
+  /* ── Buttons ──────────────────────────────────────────────── */
+  .ios-btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 16px;
+    background: rgba(10,132,255,0.12);
+    border: 0.5px solid rgba(10,132,255,0.32);
+    color: #0a84ff;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: -0.2px;
+    text-decoration: none;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  
+  .ios-btn-primary:active {
+    background: rgba(10,132,255,0.22);
+    transform: scale(0.98);
+  }
+  
+  /* Contact link color variants */
+  .ios-contact-links .ios-btn-primary:nth-child(1) {
+    background: rgba(255,59,48,0.10);
+    border-color: rgba(255,59,48,0.28);
+    color: #ff6b6b;
+  }
+  .ios-contact-links .ios-btn-primary:nth-child(2) {
+    background: rgba(10,102,194,0.10);
+    border-color: rgba(10,102,194,0.28);
+    color: #5aabff;
+  }
+  .ios-contact-links .ios-btn-primary:nth-child(3) {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.75);
+  }
+  .ios-contact-links .ios-btn-primary:nth-child(4) {
+    background: rgba(139,92,246,0.10);
+    border-color: rgba(139,92,246,0.28);
+    color: #a78bfa;
+  }
+  
+  /* ── Contact Links ────────────────────────────────────────── */
+  .ios-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* ── Home Indicator ───────────────────────────────────────── */
+  .ios-home-indicator-container {
+    height: max(30px, env(safe-area-inset-bottom, 30px));
+    background: transparent;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 8px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  
+  .ios-home-indicator {
+    width: 134px;
+    height: 5px;
+    background: rgba(255,255,255,0.32);
+    border-radius: 999px;
+  }

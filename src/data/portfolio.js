@@ -147,7 +147,6 @@ export const PROJECTS = [
     desc: "Creation of a market scanning tool to identify arbitrage opportunities with algorithmic trading strategies.",
     lang: "Python",
     langColor: "#3776ab",
-    stars: 0,
     status: "wip",
     url: "https://github.com/aymen04/",
     featured: true,

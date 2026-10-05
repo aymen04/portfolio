@@ -80,7 +80,7 @@ function ProjectsPage() {
           </div>
           <div className="sp-tagline">{p.tagline}</div>
           <div className="sp-stack">{p.stack.map(s => <span key={s} className="sp-tag">{s}</span>)}</div>
-          <div className="sp-arrow">↗</div>
+          
         </a>
       ))}
     </div>

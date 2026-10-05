@@ -1,15 +1,14 @@
-import { LangProvider, useLang } from './context/LangContext';
-import LockScreen from './components/LockScreen/LockScreen';
-import Desktop from './components/Desktop';
-import './components/Desktop.css';
+import { LangProvider } from './context/LangContext';
+import { useMediaQuery } from './hooks/useMediaQuery';
+import MacOsDesktop from './components/macos/MacOsDesktop';
+import IosMobile from './components/ios/IosMobile';
 
 function AppInner() {
-  const { lang } = useLang();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   return (
     <>
-      {!lang && <LockScreen />}
-      {/* Desktop always mounted but hidden under lockscreen */}
-      <Desktop />
+      {isMobile ? <IosMobile /> : <MacOsDesktop />}
     </>
   );
 }
